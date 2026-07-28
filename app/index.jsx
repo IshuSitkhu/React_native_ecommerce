@@ -10,17 +10,14 @@ import { router } from "expo-router";
 
 import Header from "../components/Header";
 import ProductCard from "../components/ProductCard";
+import { useCart } from "../context/CartContext";
+import CustomButton from "../components/CustomButton";
 
 export default function HomeScreen() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [cart, setCart] = useState([]);
-
-
-  const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
-  };
+  const { addToCart , cart} = useCart();
 
   const fetchProducts = async () => {
     try {
@@ -72,6 +69,11 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Header title="Product Store" />
       <Text style={styles.title}>Welcome to Product Store</Text>
+
+      <CustomButton
+        title="Open Cart"
+        onPress={() => router.push("/cart")}
+      />
 
       <FlatList
         data={products}
