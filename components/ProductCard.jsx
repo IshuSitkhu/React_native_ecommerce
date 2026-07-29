@@ -67,8 +67,8 @@ export default function ProductCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
+    backgroundColor: "#edeaea",
+    borderRadius: 22,
     padding: 15,
     marginVertical: 10,
     elevation: 3,
@@ -80,21 +80,21 @@ const styles = StyleSheet.create({
 
   image: {
     width: "100%",
-    height: 180,
+    height: 250,
   },
   imageContainer: {
-  position: "relative",
-},
+    position: "relative",
+  },
 
-wishlist: {
-  position: "absolute",
-  top: 10,
-  right: 10,
-  backgroundColor: "transparent",
-  padding: 8,
-  borderRadius: 10,
-  elevation: 3,
-},
+  wishlist: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    backgroundColor: "transparent",
+    padding: 8,
+    borderRadius: 10,
+    elevation: 3,
+  },
 
   title: {
     fontSize: 16,

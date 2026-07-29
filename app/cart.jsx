@@ -4,6 +4,8 @@ import { router } from "expo-router";
 import { useCart } from "../context/CartContext";
 import CustomButton from "../components/CustomButton";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 
 
 export default function Cart() {
@@ -20,9 +22,7 @@ export default function Cart() {
         <SafeAreaView style={{flex:1}}>
             <View style={styles.container}>
 
-            <Text style={styles.title}>
-                My Cart
-            </Text>
+            <Header title="My Cart" />
 
             <FlatList
                 data={cart}
@@ -72,10 +72,12 @@ export default function Cart() {
                 Total: £{total.toFixed(2)}
             </Text>
 
-            <CustomButton
+            {/* <CustomButton
                 title="← Back"
                 onPress={() => router.replace("/")}
-            />
+            /> */}
+
+            <Navbar />
 
             </View>
         </SafeAreaView>
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
     card:{
         flexDirection:"row",
         alignItems:"center",
-        marginBottom:15,
+        marginVertical:15,
         padding:10,
         backgroundColor:"#eee",
         borderRadius:10,

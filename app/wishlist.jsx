@@ -5,6 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { useWishlist } from "../context/WishlistContext";
 import CustomButton from "../components/CustomButton";
+import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 
 export default function Wishlist() {
   const { wishlist, addToWishlist } = useWishlist();
@@ -13,7 +15,7 @@ export default function Wishlist() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
-          <Text style={styles.title}>My Wishlist </Text>
+          <Header title="My Wishlist" />
 
           <Text style={styles.empty}>
             Your wishlist is empty.
@@ -23,6 +25,7 @@ export default function Wishlist() {
             title="<- Go Shopping"
             onPress={() => router.replace("/")}
           />
+          {/* <Navbar /> */}
         </View>
       </SafeAreaView>
     );
@@ -31,7 +34,7 @@ export default function Wishlist() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <Text style={styles.title}>My Wishlist </Text>
+        <Header title="My Wishlist" />
 
         <FlatList
           data={wishlist}
@@ -49,30 +52,38 @@ export default function Wishlist() {
                   {item.title}
                 </Text>
 
-                <Text style={styles.price}>
-                  £{item.price}
-                </Text>
+                <View style={styles.arrange}>
+                  <Text style={styles.price}>
+                    £{item.price}
+                  </Text>
 
-                <Pressable
-                  style={styles.removeButton}
-                  onPress={() => addToWishlist(item)}
-                >
-                  <Ionicons
-                    name="heart"
-                    size={28}
-                    color="#dc143c"
-                  />
-                </Pressable>
+                  <Pressable
+                    style={styles.removeButton}
+                    onPress={() => addToWishlist(item)}
+                  >
+                    <Ionicons
+                      name="heart"
+                      size={28}
+                      color="#dc143c"
+                    />
+                  </Pressable>
+                </View>
+          
+
+                
               </View>
             </View>
           )}
         />
 
-        <CustomButton
+        {/* <CustomButton
           title="<- Go Shopping"
           onPress={() => router.replace("/")}
-        />
+        /> */}
+
+        <Navbar />
       </View>
+      
     </SafeAreaView>
   );
 }
@@ -103,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#eee",
     borderRadius: 10,
     padding: 10,
-    marginBottom: 15,
+    marginVertical: 15,
   },
 
   image: {
@@ -130,6 +141,13 @@ const styles = StyleSheet.create({
 
   removeButton: {
     alignSelf: "flex-start",
-    marginTop: 10,
+    marginRight: 15,
+    
   },
+  arrange:{
+    width:"100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+  }
 });

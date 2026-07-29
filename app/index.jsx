@@ -15,6 +15,7 @@ import CustomButton from "../components/CustomButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../constants/Colors";
 import { useWishlist } from "../context/WishlistContext";
+import Navbar from "../components/Navbar";
 
 export default function HomeScreen() {
   const [products, setProducts] = useState([]);
@@ -73,22 +74,9 @@ export default function HomeScreen() {
     <>
         <SafeAreaView style={{flex: 1}}>   
           <View style={styles.container}>
-            <View style={styles.login}>
               <Header title="Product Store" />
-              <CustomButton title="Login" onPress={() => router.push("/auth/login")} variant="secondary"/>
-            </View>
+              {/* <CustomButton title="Login" onPress={() => router.push("/auth/login")} variant="secondary"/> */}
               <Text style={styles.title}>Welcome to Product Store</Text>
-              <View style={styles.arrange}>
-                <CustomButton
-                  title="Open Cart"
-                  onPress={() => router.push("/cart")}
-                />
-
-                <CustomButton
-                  title="Open Wishlist"
-                  onPress={() => router.push("/wishlist")}
-                />
-              </View>
             
 
             <FlatList
@@ -108,6 +96,8 @@ export default function HomeScreen() {
                 />
               )}
             />
+
+            <Navbar />
           </View>
         </SafeAreaView>
         
@@ -125,8 +115,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    marginVertical: 20,
+    marginVertical: 5,
     textAlign: "center",
+    color: "#4F46E5"
   },
   loader: {
     flex: 1,

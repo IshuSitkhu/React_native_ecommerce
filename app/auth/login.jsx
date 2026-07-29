@@ -116,7 +116,7 @@ export default function Login() {
 
             <View style={styles.arrange}>
               <CustomButton
-                title="Not registered yet? Register Now!"
+                title="Not Register yet? Register Now!"
                 onPress={() => router.push("/auth/register")}
                 variant="gray"
               />
@@ -152,5 +152,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 16,
   },
-  arrange:{ width:"100%", flexDirection:"row", justifyContent: "space-between"}
+  arrange:{ 
+    width:"100%", 
+    flexDirection:"row", 
+    justifyContent: "space-between",
+  },
 });

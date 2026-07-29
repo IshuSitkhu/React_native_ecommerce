@@ -15,6 +15,7 @@ import Colors from "../../constants/Colors";
 import Header from "../../components/Header";
 import { useWishlist } from "../../context/WishlistContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 export default function ProductDetail() {
@@ -71,75 +72,80 @@ const isWishlisted = wishlist.find(
 );
 
 return (
-  <View style={styles.container}>
-    <Header title="Product Description" />
-    <Text style={styles.category}>
-    {product.category}
-  </Text>
-
-  <View style={styles.topRow}>
-    <Pressable
-      onPress={() => addToWishlist(product)}
-      style={[
-        styles.wishlist,
-        isWishlisted && styles.wishlisted,
-      ]}
-    >
-      <Ionicons
-        name={isWishlisted ? "heart" : "heart-outline"}
-        size={28}
-        color={isWishlisted ? "#dc143c" : "black"}
-      />
-    </Pressable>
-    <Text style={styles.price}>
-      £{product.price}
-    </Text>
-  </View>
-
-
-    <Image
-      source={{ uri: product.image }}
-      style={styles.image}
-      resizeMode="contain"
-    />
+  <>
+  <SafeAreaView style={{flex:1}}>
     
-
-    <Text style={styles.title}>
-      {product.title}
-    </Text>
-
+    <View style={styles.container}>
     
+      <Header title="Product Description" />
 
-    <Text style={styles.description}>
-      {product.description}
-    </Text>
+      <View style={styles.arrange}>
+        <Text style={styles.title}>
+          {product.title}
+        </Text>
 
-    <CustomButton
-      title="← Back"
-      onPress={() => router.replace("/")}
-      // onPress={() => router.back()}
-    />
+        <View style={styles.topRow}>
+          <Pressable
+            onPress={() => addToWishlist(product)}
+            style={[
+              styles.wishlist,
+              isWishlisted && styles.wishlisted,
+            ]}
+          >
+            <Ionicons
+              name={isWishlisted ? "heart" : "heart-outline"}
+              size={28}
+              color={isWishlisted ? "#dc143c" : "black"}
+            />
+          </Pressable>
+          <Text style={styles.price}>
+            £{product.price}
+          </Text>
+        </View>
+        <Image
+          source={{ uri: product.image }}
+          style={styles.image}
+          resizeMode="contain"
+        />
+        <Text style={styles.category}>
+          {product.category}
+        </Text>
+        <Text style={styles.description}>
+          {product.description}
+        </Text>
 
-  </View>
+        <CustomButton
+          title="← Back"
+          onPress={() => router.replace("/")}
+          // onPress={() => router.back()}
+        />
+      </View>
+    </View>
+  </SafeAreaView>
+  </>
+
 );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
+  },
+  arrange: {
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    margin: 15,
   },
   title: {
     fontSize: 26,
     fontWeight: "bold",
     marginBottom: 10,
-    marginTop:10,
+    paddingTop:20,
   },
   image: {
     width: "100%",
-    height: 250,
+    height: 350,
     paddingTop:20,
   },
 
@@ -157,7 +163,7 @@ const styles = StyleSheet.create({
   },
 
   topRow: {
-    width: "90%",
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -178,7 +184,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     color: Colors.text,
-    top:5,
+    marginVertical:5,
   },
 
   loader: {

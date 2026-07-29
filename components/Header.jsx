@@ -16,10 +16,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   title: {
-    color: Colors.primary,
+    color: Colors.text,
     fontSize: 32,
     fontWeight: "bold",
     textAlign: "center",
+    alignItems: "center",
   },
 });
 
