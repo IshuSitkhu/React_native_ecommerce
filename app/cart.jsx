@@ -98,7 +98,9 @@ const styles = StyleSheet.create({
     title:{
         fontSize:26,
         fontWeight:"bold",
+        alignItems: "center",
         marginBottom:20,
+        marginTop:10,
     },
 
     card:{

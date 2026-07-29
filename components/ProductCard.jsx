@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 wishlist: {
   position: "absolute",
   top: 10,
-  right: 10, // use right: 10 if you prefer the top-right corner
+  right: 10,
   backgroundColor: "transparent",
   padding: 8,
   borderRadius: 10,

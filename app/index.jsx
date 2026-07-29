@@ -78,10 +78,18 @@ export default function HomeScreen() {
               <CustomButton title="Login" onPress={() => router.push("/auth/login")} variant="secondary"/>
             </View>
               <Text style={styles.title}>Welcome to Product Store</Text>
-            <CustomButton
-              title="Open Cart"
-              onPress={() => router.push("/cart")}
-            />
+              <View style={styles.arrange}>
+                <CustomButton
+                  title="Open Cart"
+                  onPress={() => router.push("/cart")}
+                />
+
+                <CustomButton
+                  title="Open Wishlist"
+                  onPress={() => router.push("/wishlist")}
+                />
+              </View>
+            
 
             <FlatList
               data={products}
@@ -135,4 +143,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
   },
+  arrange:{
+    width:"100%",
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+  }
 });
