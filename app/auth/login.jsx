@@ -11,7 +11,7 @@ import Header from "../../components/Header";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Toast from "react-native-toast-message";
+import CustomToast from "../../components/CustomToast";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -19,6 +19,12 @@ export default function Login() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  
+  const [toast, setToast] = useState({
+    visible: false,
+    message: "",
+    type: "success",
+  });
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -48,24 +54,54 @@ export default function Login() {
 
       console.log(data);
 
-      if (data.token) {
-        setUsername("");
-        setPassword("");
-        Toast.show({
-          type: "success",
-          text1: "Login Successful!",
-          text2: "Redirecting to HomePage...",
-        });
-  
-        setTimeout(() => {
-          router.replace("/");
-        }, 1500);
-      } else {
-        setError("Invalid username or password.");
-      }
+if (data.token) {
+  setUsername("");
+  setPassword("");
+
+  setToast({
+    visible: true,
+    type: "success",
+    message: "Login Successful!",
+  });
+
+  setTimeout(() => {
+    setToast((prev) => ({
+      ...prev,
+      visible: false,
+    }));
+
+    router.replace("/");
+  }, 2000);
+
+} else {
+  setToast({
+    visible: true,
+    type: "error",
+    message: "Invalid username or password!",
+  });
+
+  setTimeout(() => {
+    setToast((prev) => ({
+      ...prev,
+      visible: false,
+    }));
+  }, 2000);
+}
     } catch (error) {
       console.log(error);
-      setError("Failed to login.");
+
+      setToast({
+        visible: true,
+        type: "error",
+        message: "Login Failed!",
+      });
+
+      setTimeout(() => {
+        setToast((prev) => ({
+          ...prev,
+          visible: false,
+        }));
+      }, 2000);
     } finally {
       setLoading(false);
     }
@@ -74,6 +110,11 @@ export default function Login() {
   return (
     <>
       <SafeAreaView style={{flex: 1}}>
+        <CustomToast
+          visible={toast.visible}
+          message={toast.message}
+          type={toast.type}
+        />
           <View style={styles.container}>
             <Header title="Login" />
 

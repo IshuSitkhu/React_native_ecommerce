@@ -1,36 +1,38 @@
-import { useState, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-  Text,
-} from "react-native";
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
+import { SafeAreaView } from "react-native-safe-area-context";
+import CustomToast from "../components/CustomToast";
 import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 import ProductCard from "../components/ProductCard";
 import { useCart } from "../context/CartContext";
-import CustomButton from "../components/CustomButton";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Colors from "../constants/Colors";
 import { useWishlist } from "../context/WishlistContext";
-import Navbar from "../components/Navbar";
 
 export default function HomeScreen() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { addToCart , cart} = useCart();
+  const { addToCart, cart } = useCart();
   const { wishlist, addToWishlist } = useWishlist();
+  const [toast, setToast] = useState({
+    visible: false,
+    message: "",
+    type: "success",
+  });
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        "https://fakestoreapi.com/products"
-      );
+      const response = await fetch("https://fakestoreapi.com/products");
 
       const data = await response.json();
 
@@ -70,40 +72,77 @@ export default function HomeScreen() {
     );
   }
 
+  const handleAddToCart = (product) => {
+    addToCart(product);
+
+    setToast({
+      visible: true,
+      type: "success",
+      message: `${product.title} added to cart!`,
+    });
+
+    setTimeout(() => {
+      setToast((prev) => ({
+        ...prev,
+        visible: false,
+      }));
+    }, 2000);
+  };
+
+  const handleWishlist = (product) => {
+    const isWishlisted = wishlist.some((item) => item.id === product.id);
+
+    addToWishlist(product);
+
+    setToast({
+      visible: true,
+      type: "success",
+      message: isWishlisted ? "Removed from wishlist" : "Added to wishlist ",
+    });
+
+    setTimeout(() => {
+      setToast((prev) => ({
+        ...prev,
+        visible: false,
+      }));
+    }, 2000);
+  };
+
   return (
     <>
-        <SafeAreaView style={{flex: 1}}>   
-          <View style={styles.container}>
-              <Header title="Product Store" />
-              {/* <CustomButton title="Login" onPress={() => router.push("/auth/login")} variant="secondary"/> */}
-              <Text style={styles.title}>Welcome to Product Store</Text>
-            
+      <SafeAreaView style={{ flex: 1 }}>
+        <CustomToast
+          visible={toast.visible}
+          message={toast.message}
+          type={toast.type}
+        />
+        <View style={styles.container}>
+          <Header title="Product Store" />
+          {/* <CustomButton title="Login" onPress={() => router.push("/auth/login")} variant="secondary"/> */}
+          <Text style={styles.title}>Welcome to Product Store</Text>
 
-            <FlatList
-              data={products}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
-                <ProductCard
-                  title={item.title}
-                  price={item.price}
-                  image={item.image}
-                  onPress={() => router.push(`/product/${item.id}`)}
-                  onAddToCart={() => addToCart(item)}
-                  onToggleWishlist={() => addToWishlist(item)}
-                  isWishlisted={wishlist.some(
-                    (product) => product.id === item.id
-                  )}
-                />
-              )}
-            />
+          <FlatList
+            data={products}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <ProductCard
+                title={item.title}
+                price={item.price}
+                image={item.image}
+                onPress={() => router.push(`/product/${item.id}`)}
+                onAddToCart={() => handleAddToCart(item)}
+                onToggleWishlist={() => handleWishlist(item)}
+                isWishlisted={wishlist.some(
+                  (product) => product.id === item.id,
+                )}
+              />
+            )}
+          />
 
-            <Navbar />
-          </View>
-        </SafeAreaView>
-        
-
+          <Navbar />
+        </View>
+      </SafeAreaView>
     </>
-
   );
 }
 
@@ -117,7 +156,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: 5,
     textAlign: "center",
-    color: "#4F46E5"
+    color: "#4F46E5",
   },
   loader: {
     flex: 1,
@@ -128,15 +167,15 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 18,
   },
-  login:{
+  login: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 16,
   },
-  arrange:{
-    width:"100%",
+  arrange: {
+    width: "100%",
     justifyContent: "space-evenly",
     flexDirection: "row",
-  }
+  },
 });

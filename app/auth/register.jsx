@@ -10,7 +10,7 @@ import { router } from "expo-router";
 import Header from "../../components/Header";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
-import Toast from "react-native-toast-message";
+import CustomToast from "../../components/CustomToast";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Register() {
@@ -24,14 +24,19 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const [toast, setToast] = useState({
+    visible: false,
+    message: "",
+    type: "success",
+  });
+
   const handleRegister = async () => {
-    // Validation
     if (
       !firstName ||
       !lastName ||
       !email ||
       !username ||
-      !password 
+      !password
     ) {
       setError("Please fill in all fields.");
       return;
@@ -62,18 +67,9 @@ export default function Register() {
       );
 
       const data = await response.json();
-      console.log({
-        firstName,
-        lastName,
-        email,
-        username,
-        password,
-        phone,
-      });
-
       console.log(data);
 
-      // Clear the form
+      // Clear form
       setFirstName("");
       setLastName("");
       setEmail("");
@@ -81,102 +77,123 @@ export default function Register() {
       setPassword("");
       setPhone("");
 
-      Toast.show({
+      // Show success toast
+      setToast({
+        visible: true,
         type: "success",
-        text1: "Registration Successful!",
-        text2: "Redirecting to login...",
+        message: "Registration Successful!",
       });
 
+      // Hide toast after 2 seconds
       setTimeout(() => {
+        setToast((prev) => ({
+          ...prev,
+          visible: false,
+        }));
+
         router.replace("/auth/login");
-      }, 1500);
+      }, 2000);
 
     } catch (error) {
       console.log(error);
-      Toast.show({
+
+      setToast({
+        visible: true,
         type: "error",
-        text1: "Registration Failed",
-        text2: "Please try again.",
+        message: "Registration Failed!",
       });
+
+      setTimeout(() => {
+        setToast((prev) => ({
+          ...prev,
+          visible: false,
+        }));
+      }, 2000);
+
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <>
-      <SafeAreaView style={{flex: 1}}>
-        <View style={styles.container}>
-          <Header title="Register" />
+    <SafeAreaView style={{ flex: 1 }}>
+      {/* Render the toast */}
+      <CustomToast
+        visible={toast.visible}
+        message={toast.message}
+        type={toast.type}
+      />
 
-          <Text style={styles.title}>
-            Create Account
+      <View style={styles.container}>
+        <Header title="Register" />
+
+        <Text style={styles.title}>
+          Create Account
+        </Text>
+
+        <CustomInput
+          placeholder="First Name"
+          value={firstName}
+          onChangeText={setFirstName}
+        />
+
+        <CustomInput
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
+        />
+
+        <CustomInput
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+        />
+
+        <CustomInput
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+        />
+
+        <CustomInput
+          placeholder="Enter your Phone Number"
+          value={phone}
+          onChangeText={setPhone}
+        />
+
+        <CustomInput
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+
+        {error && (
+          <Text style={styles.error}>
+            {error}
           </Text>
+        )}
 
-          <CustomInput
-            placeholder="First Name"
-            value={firstName}
-            onChangeText={setFirstName}
+        {loading && (
+          <ActivityIndicator
+            size="large"
+            color="blue"
+            style={{ marginVertical: 10 }}
           />
+        )}
 
-          <CustomInput
-            placeholder="Last Name"
-            value={lastName}
-            onChangeText={setLastName}
-          />
+        <CustomButton
+          title="Register"
+          onPress={handleRegister}
+          variant="secondary"
+        />
 
-          <CustomInput
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-          />
-
-          <CustomInput
-            placeholder="Username"
-            value={username}
-            onChangeText={setUsername}
-          />
-
-          <CustomInput
-            placeholder="Enter your Phone Number"
-            value={phone}
-            onChangeText={setPhone}
-          />
-
-          <CustomInput
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-
-          {error && (
-            <Text style={styles.error}>
-              {error}
-            </Text>
-          )}
-
-          {loading && (
-            <ActivityIndicator
-              size="large"
-              color="blue"
-              style={{ marginVertical: 10 }}
-            />
-          )}
-
-          <CustomButton
-            title="Register"
-            onPress={handleRegister}
-            variant="secondary"
-          />
-
-          <CustomButton
-            title="<- Already have an account."
-            onPress={() => router.push("/auth/login")}
-          />
-        </View>
-      </SafeAreaView>
-    </>
+        <CustomButton
+          title="<- Already have an account."
+          onPress={() => router.push("/auth/login")}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
