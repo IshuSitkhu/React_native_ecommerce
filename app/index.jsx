@@ -73,7 +73,7 @@ export default function HomeScreen() {
           <View style={styles.container}>
             <View style={styles.login}>
               <Header title="Product Store" />
-              <CustomButton title="Login" onPress={() => router.push("/auth/login")}/>
+              <CustomButton title="Login" onPress={() => router.push("/auth/login")} variant="secondary"/>
             </View>
               <Text style={styles.title}>Welcome to Product Store</Text>
             <CustomButton
