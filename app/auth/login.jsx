@@ -114,16 +114,18 @@ export default function Login() {
               variant="secondary"
             />
 
-            <CustomButton
-              title="Not registered yet? Register Now!"
-              onPress={() => router.push("/auth/register")}
-              variant="primary"
-            />
+            <View style={styles.arrange}>
+              <CustomButton
+                title="Not registered yet? Register Now!"
+                onPress={() => router.push("/auth/register")}
+                variant="gray"
+              />
 
-            {/* <CustomButton
-              title="← Back"
-              onPress={() => router.replace("/")}
-            /> */}
+              <CustomButton
+                title="← Back"
+                onPress={() => router.replace("/")}
+              />
+            </View>
           </View>
       </SafeAreaView>
     </>
@@ -150,4 +152,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 16,
   },
+  arrange:{ width:"100%", flexDirection:"row", justifyContent: "space-between"}
 });

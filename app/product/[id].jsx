@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Image,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 
 import { useLocalSearchParams, router } from "expo-router";
@@ -12,16 +13,17 @@ import { useLocalSearchParams, router } from "expo-router";
 import CustomButton from "../../components/CustomButton";
 import Colors from "../../constants/Colors";
 import Header from "../../components/Header";
+import { useWishlist } from "../../context/WishlistContext";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 
 export default function ProductDetail() {
 
   const { id } = useLocalSearchParams();
-
   const [product, setProduct] = useState(null);
-
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState(null);
+  const { wishlist, addToWishlist } = useWishlist();
 
   const fetchProduct = async () => {
     try {
@@ -64,13 +66,37 @@ if (error) {
   );
 }
 
+const isWishlisted = wishlist.find(
+  (item) => item.id === product.id
+);
+
 return (
   <View style={styles.container}>
     <Header title="Product Description" />
-
     <Text style={styles.category}>
-      {product.category}
+    {product.category}
+  </Text>
+
+  <View style={styles.topRow}>
+    <Pressable
+      onPress={() => addToWishlist(product)}
+      style={[
+        styles.wishlist,
+        isWishlisted && styles.wishlisted,
+      ]}
+    >
+      <Ionicons
+        name={isWishlisted ? "heart" : "heart-outline"}
+        size={28}
+        color={isWishlisted ? "#dc143c" : "black"}
+      />
+    </Pressable>
+    <Text style={styles.price}>
+      £{product.price}
     </Text>
+  </View>
+
+
     <Image
       source={{ uri: product.image }}
       style={styles.image}
@@ -82,9 +108,7 @@ return (
       {product.title}
     </Text>
 
-    <Text style={styles.price}>
-      £{product.price}
-    </Text>
+    
 
     <Text style={styles.description}>
       {product.description}
@@ -132,11 +156,29 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
-  category:{
+  topRow: {
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+
+  wishlist: {
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "transparent",
+  },
+
+  wishlisted: {
+    color: "#dc143c",
+  },
+
+  category: {
     fontSize: 22,
     fontWeight: "bold",
     color: Colors.text,
-    margin: 10,
+    top:5,
   },
 
   loader: {
@@ -144,4 +186,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
 });

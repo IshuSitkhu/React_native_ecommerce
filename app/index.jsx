@@ -14,12 +14,14 @@ import { useCart } from "../context/CartContext";
 import CustomButton from "../components/CustomButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../constants/Colors";
+import { useWishlist } from "../context/WishlistContext";
 
 export default function HomeScreen() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { addToCart , cart} = useCart();
+  const { wishlist, addToWishlist } = useWishlist();
 
   const fetchProducts = async () => {
     try {
@@ -91,6 +93,10 @@ export default function HomeScreen() {
                   image={item.image}
                   onPress={() => router.push(`/product/${item.id}`)}
                   onAddToCart={() => addToCart(item)}
+                  onToggleWishlist={() => addToWishlist(item)}
+                  isWishlisted={wishlist.some(
+                    (product) => product.id === item.id
+                  )}
                 />
               )}
             />

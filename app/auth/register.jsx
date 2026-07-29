@@ -11,6 +11,7 @@ import Header from "../../components/Header";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import Toast from "react-native-toast-message";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Register() {
   const [firstName, setFirstName] = useState("");
@@ -103,75 +104,79 @@ export default function Register() {
   };
 
   return (
-    <View style={styles.container}>
-      <Header title="Register" />
+    <>
+      <SafeAreaView style={{flex: 1}}>
+        <View style={styles.container}>
+          <Header title="Register" />
 
-      <Text style={styles.title}>
-        Create Account
-      </Text>
+          <Text style={styles.title}>
+            Create Account
+          </Text>
 
-      <CustomInput
-        placeholder="First Name"
-        value={firstName}
-        onChangeText={setFirstName}
-      />
+          <CustomInput
+            placeholder="First Name"
+            value={firstName}
+            onChangeText={setFirstName}
+          />
 
-      <CustomInput
-        placeholder="Last Name"
-        value={lastName}
-        onChangeText={setLastName}
-      />
+          <CustomInput
+            placeholder="Last Name"
+            value={lastName}
+            onChangeText={setLastName}
+          />
 
-      <CustomInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
+          <CustomInput
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+          />
 
-      <CustomInput
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-      />
+          <CustomInput
+            placeholder="Username"
+            value={username}
+            onChangeText={setUsername}
+          />
 
-      <CustomInput
-        placeholder="Enter your Phone Number"
-        value={phone}
-        onChangeText={setPhone}
-      />
+          <CustomInput
+            placeholder="Enter your Phone Number"
+            value={phone}
+            onChangeText={setPhone}
+          />
 
-      <CustomInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+          <CustomInput
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
 
-      {error && (
-        <Text style={styles.error}>
-          {error}
-        </Text>
-      )}
+          {error && (
+            <Text style={styles.error}>
+              {error}
+            </Text>
+          )}
 
-      {loading && (
-        <ActivityIndicator
-          size="large"
-          color="blue"
-          style={{ marginVertical: 10 }}
-        />
-      )}
+          {loading && (
+            <ActivityIndicator
+              size="large"
+              color="blue"
+              style={{ marginVertical: 10 }}
+            />
+          )}
 
-      <CustomButton
-        title="Register"
-        onPress={handleRegister}
-        variant="secondary"
-      />
+          <CustomButton
+            title="Register"
+            onPress={handleRegister}
+            variant="secondary"
+          />
 
-      <CustomButton
-        title="← Back"
-        onPress={() => router.push("/auth/login")}
-      />
-    </View>
+          <CustomButton
+            title="<- Already have an account."
+            onPress={() => router.push("/auth/login")}
+          />
+        </View>
+      </SafeAreaView>
+    </>
   );
 }
 
