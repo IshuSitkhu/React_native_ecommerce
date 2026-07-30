@@ -144,7 +144,7 @@ if (data.token) {
             {loading && (
               <ActivityIndicator
                 size="large"
-                color="blue"
+                color="#037a52"
                 style={{ marginVertical: 10 }}
               />
             )}

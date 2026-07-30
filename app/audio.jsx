@@ -13,6 +13,7 @@ import Header from "../components/Header";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Navbar from "../components/Navbar";
 import { useAudioPlayer } from "expo-audio";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const songs = [
   {
@@ -38,16 +39,19 @@ const songs = [
 export default function Audio() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSongId, setCurrentSongId] = useState(null);
-    const player = useAudioPlayer();
+  const player = useAudioPlayer();
 
     const playSong = (song) => {
+      // if not same song then 
+      if (currentSongId !== song.id) {
         // Loads the selected song.
-        player.replace(song.file); 
-        // start playinh
-        player.play();
-
-        setIsPlaying(true);
+        player.replace(song.file);
         setCurrentSongId(song.id);
+      }
+
+      // start playinh
+      player.play();
+      setIsPlaying(true);
     };
 
     const pauseSong = () => {
@@ -55,58 +59,50 @@ export default function Audio() {
       setIsPlaying(false);
     };
     
+    const toggleSong = (song) => {
+      if (isPlaying && currentSongId === song.id) {
+        pauseSong();
+      } else {
+        playSong(song);
+      }
+    };
   return (
-    <View style={styles.container}>
-      <Header title="Audio Player" />
+    <>
+      <SafeAreaView style={{flex:1}}>
+        <View style={styles.container}>
+          <Header title="Audio Player" />
 
-      <FlatList
-        data={songs}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-        <View style={styles.songCard}>
-            <View>
-            <Text style={styles.songTitle}>
-                {item.title}
-            </Text>
+          <FlatList
+            data={songs}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+            <View style={[styles.songCard, currentSongId === item.id && styles.activeSong,]}>
+                <View>
+                <Text style={styles.songTitle}>
+                    {item.title}
+                </Text>
 
-            <Text style={styles.duration}>
-                Duration: {item.duration}
-            </Text>
+                <Text style={styles.duration}>
+                    Duration: {item.duration}
+                </Text>
+                </View>
+
+                <Pressable
+                  onPress={() => toggleSong(item)}>
+                  <Ionicons
+                    name={ isPlaying && currentSongId === item.id ? "pause-circle" : "play-circle"}
+                    size={50}
+                    color="#037a52"
+                  />
+                </Pressable>
             </View>
-
-            <Pressable
-              onPress={() => {
-                if (
-                  isPlaying &&
-                  currentSongId === item.id
-                ) {
-                  pauseSong();
-                } else {
-                  playSong(item);
-                }
-              }}
-            >
-              <Ionicons
-                name={
-                  isPlaying &&
-                  currentSongId === item.id
-                    ? "pause-circle"
-                    : "play-circle"
-                }
-                size={50}
-                color="#037a52"
-              />
-            </Pressable>
+            )}
+          />
+          <Navbar />
         </View>
-        )}
-      />
-
-      {/* <CustomButton
-        title="← Back"
-        onPress={() => router.replace("/")}
-      /> */}
-      <Navbar />
-    </View>
+      </SafeAreaView>
+    </>
+    
   );
 }
 
@@ -136,5 +132,17 @@ const styles = StyleSheet.create({
     duration: {
         color: "#666",
         marginTop: 4,
+    },
+
+    nowPlaying: {
+      fontSize: 16,
+      fontWeight: "600",
+      textAlign: "center",
+      marginVertical: 15,
+      color: "#037a52",
+    },
+    activeSong: {
+      borderWidth: 2,
+      borderColor: "#037a52",
     },
 });

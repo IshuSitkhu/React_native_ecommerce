@@ -20,13 +20,8 @@ export default function Wishlist() {
           <Text style={styles.empty}>
             Your wishlist is empty.
           </Text>
-
-          <CustomButton
-            title="<- Go Shopping"
-            onPress={() => router.replace("/")}
-          />
-          {/* <Navbar /> */}
         </View>
+        <Navbar />
       </SafeAreaView>
     );
   }

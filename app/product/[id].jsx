@@ -63,7 +63,7 @@ export default function ProductDetail() {
   if (loading) {
   return (
     <View style={styles.loader}>
-      <ActivityIndicator size="large" color="blue" />
+      <ActivityIndicator size="large" color="#037a52" />
     </View>
   );
 }

@@ -15,15 +15,15 @@ export default function Navbar() {
       </Pressable>
 
       <Pressable onPress={() => router.replace("/cart")}>
-        <AntDesign name="shopping-cart" size={34} color="black" />
-      </Pressable>
-
-      <Pressable onPress={() => router.replace("/wishlist")}>
-        <FontAwesome name="heart" size={34} color="black" />
+        <Entypo name="shopping-cart" size={34} color="black" />
       </Pressable>
 
       <Pressable onPress={() => router.replace("/audio")}>
         <MaterialIcons name="audiotrack" size={34} color="black" />
+      </Pressable>
+
+      <Pressable onPress={() => router.replace("/wishlist")}>
+        <FontAwesome name="heart" size={34} color="black" />
       </Pressable>
 
       <Pressable onPress={() => router.replace("/auth/login")}>
