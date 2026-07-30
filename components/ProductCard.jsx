@@ -10,6 +10,7 @@ export default function ProductCard({
   onAddToCart,
   onToggleWishlist,
   isWishlisted,
+  isInCart,
 })
 {
   return (
@@ -58,9 +59,10 @@ export default function ProductCard({
       </View> */}
 
       <CustomButton
-          title="Add to Cart"
-          onPress={onAddToCart}
-      />
+        title={isInCart ? "Added to Cart! " : "Add to Cart"}
+        onPress={onAddToCart}
+        variant={isInCart ? "green" : "secondary"}
+        />
     </Pressable>
   );
 }

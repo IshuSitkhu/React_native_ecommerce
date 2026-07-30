@@ -17,6 +17,8 @@ import { useWishlist } from "../../context/WishlistContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DragToCart from "../../components/DragToCart";
+import { useCart } from "../../context/CartContext";
+import CustomToast from "../../components/CustomToast";
 
 
 export default function ProductDetail() {
@@ -26,6 +28,12 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { wishlist, addToWishlist } = useWishlist();
+  const { addToCart, cart } = useCart();
+  const [toast, setToast] = useState({
+    visible: false,
+    message: "",
+    type: "success",
+  });
 
   const fetchProduct = async () => {
     try {
@@ -72,12 +80,40 @@ const isWishlisted = wishlist.find(
   (item) => item.id === product.id
 );
 
+  const handleAddToCart = (product) => {
+    addToCart(product);
+
+    setToast({
+      visible: true,
+      type: "success",
+      message: `${product.title} added to cart!`,
+    });
+
+    setTimeout(() => {
+      setToast((prev) => ({
+        ...prev,
+        visible: false,
+      }));
+    }, 2000);
+  };
+
+  const isInCart = cart.some(
+  (item) => item.id === product.id
+);
+
 return (
   <>
     <SafeAreaView style={{flex:1}}>      
       <View style={styles.container}>      
-        <Header title="Product Description" />
-
+        <View style={{flexDirection:"row", justifyContent:"space-around"}}>
+          <Header title="Product Description" />
+          {/* <CustomButton
+            title="← Back"
+            onPress={() => router.replace("/")}
+            // onPress={() => router.back()}
+            variant="secondary"
+          /> */}
+        </View>
         <View style={styles.arrange}>
           <Text style={styles.title}>
             {product.title}
@@ -100,6 +136,7 @@ return (
             <Text style={styles.price}>
               £{product.price}
             </Text>
+            
           </View>
           <Image
             source={{ uri: product.image }}
@@ -111,19 +148,19 @@ return (
           </Text>
           <Text style={styles.description}>
             {product.description}
-          </Text>
-
-          <CustomButton
-            title="← Back"
-            onPress={() => router.replace("/")}
-            // onPress={() => router.back()}
-          />
-          
+          </Text>         
         </View>
-        <DragToCart />
-
-        
+         
       </View>
+      <DragToCart
+        onAddToCart={() => handleAddToCart(product)}
+        isInCart={isInCart}
+      />
+      <CustomToast
+        visible={toast.visible}
+        message={toast.message}
+        type={toast.type}
+      />
     </SafeAreaView>
   </>
 
@@ -134,6 +171,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    
   },
   arrange: {
     justifyContent: "center",
@@ -141,14 +179,15 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   title: {
-    fontSize: 26,
+    fontSize: 22,
     fontWeight: "bold",
     marginBottom: 10,
     paddingTop:20,
+    color:"#43464a",
   },
   image: {
     width: "100%",
-    height: 350,
+    height: 320,
     paddingTop:20,
   },
 
@@ -162,7 +201,6 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     lineHeight: 24,
-    marginBottom: 20,
   },
 
   topRow: {

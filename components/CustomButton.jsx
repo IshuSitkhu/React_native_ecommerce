@@ -28,11 +28,14 @@ const styles = StyleSheet.create({
   },
 
   secondary: {
-    backgroundColor: "#10B981",
+    backgroundColor: "#037a52",
   },
 
   danger: {
     backgroundColor: "#EF4444",
+  },
+  green:{
+    backgroundColor:"green",
   },
 
   gray: {

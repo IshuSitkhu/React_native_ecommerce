@@ -108,6 +108,7 @@ export default function HomeScreen() {
     }, 2000);
   };
 
+
   return (
     <>
       <SafeAreaView style={{ flex: 1 }}>
@@ -135,6 +136,9 @@ export default function HomeScreen() {
                 isWishlisted={wishlist.some(
                   (product) => product.id === item.id,
                 )}
+                isInCart={cart.some(
+                  (cartItem) => cartItem.id === item.id
+                )}
               />
             )}
           />
@@ -156,7 +160,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: 5,
     textAlign: "center",
-    color: "#4F46E5",
+    color: "#037a52",
   },
   loader: {
     flex: 1,
