@@ -76,9 +76,9 @@ if (error) {
   );
 }
 
-const isWishlisted = wishlist.find(
-  (item) => item.id === product.id
-);
+  const isWishlisted = wishlist.find(
+    (item) => item.id === product.id
+  );
 
   const handleAddToCart = (product) => {
     addToCart(product);
@@ -97,9 +97,9 @@ const isWishlisted = wishlist.find(
     }, 2000);
   };
 
-  const isInCart = cart.some(
-  (item) => item.id === product.id
-);
+    const isInCart = cart.some(
+    (item) => item.id === product.id
+  );
 
 return (
   <>

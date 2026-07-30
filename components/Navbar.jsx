@@ -4,6 +4,7 @@ import CustomButton from "./CustomButton";
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function Navbar() {
   return (
@@ -19,6 +20,10 @@ export default function Navbar() {
 
       <Pressable onPress={() => router.replace("/wishlist")}>
         <FontAwesome name="heart" size={34} color="black" />
+      </Pressable>
+
+      <Pressable onPress={() => router.replace("/audio")}>
+        <MaterialIcons name="audiotrack" size={34} color="black" />
       </Pressable>
 
       <Pressable onPress={() => router.replace("/auth/login")}>
