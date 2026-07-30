@@ -16,6 +16,7 @@ import Header from "../../components/Header";
 import { useWishlist } from "../../context/WishlistContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import DragToCart from "../../components/DragToCart";
 
 
 export default function ProductDetail() {
@@ -73,55 +74,57 @@ const isWishlisted = wishlist.find(
 
 return (
   <>
-  <SafeAreaView style={{flex:1}}>
-    
-    <View style={styles.container}>
-    
-      <Header title="Product Description" />
+    <SafeAreaView style={{flex:1}}>      
+      <View style={styles.container}>      
+        <Header title="Product Description" />
 
-      <View style={styles.arrange}>
-        <Text style={styles.title}>
-          {product.title}
-        </Text>
-
-        <View style={styles.topRow}>
-          <Pressable
-            onPress={() => addToWishlist(product)}
-            style={[
-              styles.wishlist,
-              isWishlisted && styles.wishlisted,
-            ]}
-          >
-            <Ionicons
-              name={isWishlisted ? "heart" : "heart-outline"}
-              size={28}
-              color={isWishlisted ? "#dc143c" : "black"}
-            />
-          </Pressable>
-          <Text style={styles.price}>
-            £{product.price}
+        <View style={styles.arrange}>
+          <Text style={styles.title}>
+            {product.title}
           </Text>
-        </View>
-        <Image
-          source={{ uri: product.image }}
-          style={styles.image}
-          resizeMode="contain"
-        />
-        <Text style={styles.category}>
-          {product.category}
-        </Text>
-        <Text style={styles.description}>
-          {product.description}
-        </Text>
 
-        <CustomButton
-          title="← Back"
-          onPress={() => router.replace("/")}
-          // onPress={() => router.back()}
-        />
+          <View style={styles.topRow}>
+            <Pressable
+              onPress={() => addToWishlist(product)}
+              style={[
+                styles.wishlist,
+                isWishlisted && styles.wishlisted,
+              ]}
+            >
+              <Ionicons
+                name={isWishlisted ? "heart" : "heart-outline"}
+                size={28}
+                color={isWishlisted ? "#dc143c" : "black"}
+              />
+            </Pressable>
+            <Text style={styles.price}>
+              £{product.price}
+            </Text>
+          </View>
+          <Image
+            source={{ uri: product.image }}
+            style={styles.image}
+            resizeMode="contain"
+          />
+          <Text style={styles.category}>
+            {product.category}
+          </Text>
+          <Text style={styles.description}>
+            {product.description}
+          </Text>
+
+          <CustomButton
+            title="← Back"
+            onPress={() => router.replace("/")}
+            // onPress={() => router.back()}
+          />
+          
+        </View>
+        <DragToCart />
+
+        
       </View>
-    </View>
-  </SafeAreaView>
+    </SafeAreaView>
   </>
 
 );
