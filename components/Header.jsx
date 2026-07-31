@@ -12,7 +12,7 @@ const Header = ({ title }) => {
 
 const styles = StyleSheet.create({
   header: {
-    paddingTop:25,
+    // paddingTop:25,
     borderRadius: 10,
   },
   title: {

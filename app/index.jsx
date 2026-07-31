@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  Pressable,
   StyleSheet,
   Text,
   View,
@@ -15,6 +16,9 @@ import Navbar from "../components/Navbar";
 import ProductCard from "../components/ProductCard";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
+import { FontAwesome } from "@expo/vector-icons";
+import SearchSheet from "../components/SearchSheet";
+import CategoryProducts from "../components/CategoryProducts";
 
 export default function HomeScreen() {
   const [products, setProducts] = useState([]);
@@ -27,6 +31,10 @@ export default function HomeScreen() {
     message: "",
     type: "success",
   });
+
+  const [showSearch, setShowSearch] = useState(false);
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -119,29 +127,48 @@ export default function HomeScreen() {
         />
         <View style={styles.container}>
           <Header title="Product Store" />
-          {/* <CustomButton title="Login" onPress={() => router.push("/auth/login")} variant="secondary"/> */}
-          <Text style={styles.title}>Welcome to Product Store</Text>
+          <View style={styles.arrange}>
+            <Text style={styles.title}>Welcome to Product Store</Text>
+            <Pressable onPress={() => setShowSearch(!showSearch)}>
+                    <FontAwesome name="search" size={22} color="black" />
+            </Pressable>
+          </View>
 
-          <FlatList
-            data={products}
-            
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <ProductCard
-                title={item.title}
-                price={item.price}
-                image={item.image}
-                onPress={() => router.push(`/product/${item.id}`)}
-                onAddToCart={() => handleAddToCart(item)}
-                onToggleWishlist={() => handleWishlist(item)}
-                isWishlisted={wishlist.some(
-                  (product) => product.id === item.id,
-                )}
-                isInCart={cart.some(
-                  (cartItem) => cartItem.id === item.id
-                )}
-              />
-            )}
+{/* SELECTED CATEGORY NULL FALSE  */}
+          {selectedCategory ? (
+            <CategoryProducts
+              category={selectedCategory}
+              onBack={() => setSelectedCategory(null)}
+            />
+          ) : (
+            <FlatList
+              data={products}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <ProductCard
+                  title={item.title}
+                  price={item.price}
+                  image={item.image}
+                  onPress={() => router.push(`/product/${item.id}`)}
+                  onAddToCart={() => handleAddToCart(item)}
+                  onToggleWishlist={() => handleWishlist(item)}
+                  isWishlisted={wishlist.some(
+                    (product) => product.id === item.id
+                  )}
+                  isInCart={cart.some(
+                    (cartItem) => cartItem.id === item.id
+                  )}
+                />
+              )}
+            />
+          )}
+
+          <SearchSheet
+            visible={showSearch}
+            onSelectCategory={(category)=>{
+              setSelectedCategory(category);
+              setShowSearch(false);
+            }}
           />
 
           <Navbar />
@@ -157,10 +184,9 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
-    marginVertical: 5,
-    textAlign: "center",
+    paddingTop:3,
     color: "#037a52",
   },
   loader: {
@@ -180,7 +206,7 @@ const styles = StyleSheet.create({
   },
   arrange: {
     width: "100%",
-    justifyContent: "space-evenly",
+    justifyContent:"space-around",
     flexDirection: "row",
   },
 });

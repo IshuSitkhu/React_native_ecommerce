@@ -152,27 +152,27 @@ export default function Search() {
           keyExtractor={(item) => item.id.toString()}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
-             <View style={{ flex: 1, margin: 5 }}>
-            <ProductCard
-              title={item.title}
-              price={item.price}
-              image={item.image}
-              onPress={() =>
-                router.push(`/product/${item.id}`)
-              }
-              onAddToCart={() =>
-                handleAddToCart(item)
-              }
-              onToggleWishlist={() =>
-                handleWishlist(item)
-              }
-              isWishlisted={wishlist.some(
-                (wishItem) => wishItem.id === item.id
-              )}
-              isInCart={cart.some(
-                (cartItem) => cartItem.id === item.id
-              )}
-            />
+            <View style={{ flex: 1, margin: 5 }}>
+              <ProductCard
+                title={item.title}
+                price={item.price}
+                image={item.image}
+                onPress={() =>
+                  router.push(`/product/${item.id}`)
+                }
+                onAddToCart={() =>
+                  handleAddToCart(item)
+                }
+                onToggleWishlist={() =>
+                  handleWishlist(item)
+                }
+                isWishlisted={wishlist.some(
+                  (wishItem) => wishItem.id === item.id
+                )}
+                isInCart={cart.some(
+                  (cartItem) => cartItem.id === item.id
+                )}
+              />
             </View>
           )}
           ListEmptyComponent={
