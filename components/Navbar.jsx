@@ -11,24 +11,30 @@ export default function Navbar() {
     <View style={styles.container}>
 
       <Pressable onPress={() => router.replace("/")}>
-        <Entypo name="home" size={34} color="black" />
+        <Entypo name="home" size={26} color="black" />
       </Pressable>
 
       <Pressable onPress={() => router.replace("/cart")}>
-        <Entypo name="shopping-cart" size={34} color="black" />
+        <Entypo name="shopping-cart" size={26} color="black" />
       </Pressable>
 
       <Pressable onPress={() => router.replace("/audio")}>
-        <MaterialIcons name="audiotrack" size={34} color="black" />
+        <MaterialIcons name="audiotrack" size={26} color="black" />
       </Pressable>
 
       <Pressable onPress={() => router.replace("/wishlist")}>
-        <FontAwesome name="heart" size={34} color="black" />
+        <FontAwesome name="heart" size={26} color="black" />
+      </Pressable>
+
+      <Pressable onPress={() => router.replace("/search")}>
+        <FontAwesome name="search" size={26} color="black" />
       </Pressable>
 
       <Pressable onPress={() => router.replace("/auth/login")}>
-        <AntDesign name="login" size={34} color="black" />
+        <Entypo name="log-out" size={26} color="black" />
       </Pressable>
+
+     
       
 
       {/* <CustomButton
@@ -58,5 +64,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc8c8e2",
     borderRadius:40,
     paddingVertical:15,
+    marginHorizontal:20,
   },
 });

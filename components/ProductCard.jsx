@@ -38,6 +38,7 @@ export default function ProductCard({
           size={28}
           color={isWishlisted ? "#dc143c" : "black"}
         />
+        
       </Pressable>
     </View>
 
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     right: 10,
-    backgroundColor: "transparent",
+    // backgroundColor: "none",
     padding: 8,
     borderRadius: 10,
     elevation: 3,
